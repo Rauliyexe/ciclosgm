@@ -6,7 +6,7 @@ export default function Marquee() {
   const row = [...words, ...words];
 
   return (
-    <div className="relative py-8 border-y border-cyan-950/50 overflow-hidden bg-[#04070d]/70 select-none">
+    <div className="relative w-full max-w-full py-8 border-y border-cyan-950/50 overflow-hidden bg-[#04070d]/70 select-none">
       <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#05070b] to-transparent z-10 pointer-events-none" />
       <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#05070b] to-transparent z-10 pointer-events-none" />
       <div className="flex w-max animate-marquee gap-12">

@@ -65,7 +65,7 @@ export default function Reveal({
   return (
     <Tag
       ref={ref}
-      className={className}
+      className={`w-full max-w-full ${className}`}
       style={
         settled
           ? undefined

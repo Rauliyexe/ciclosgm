@@ -104,7 +104,7 @@ export default function Navbar({ onOpenEnroll }) {
 
         {/* Mobile Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-cyan-950/60 bg-[#070b13]/98 backdrop-blur-2xl px-5 pt-4 pb-8 transition-all animate-fade-in shadow-2xl">
+          <div className="md:hidden border-t border-cyan-950/60 bg-[#070b13]/98 backdrop-blur-2xl px-5 pt-4 pb-8 transition-all animate-fade-in shadow-2xl w-full max-w-full overflow-hidden">
             <div className="flex flex-col text-sm font-mono uppercase tracking-widest text-slate-300 mb-6 divide-y divide-slate-800/60">
               <a
                 href="#para-quem-e"

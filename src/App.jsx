@@ -26,7 +26,7 @@ export default function App() {
   const handleCloseEnroll = () => setEnrollModalOpen(false);
 
   return (
-    <div className="min-h-screen bg-[#05070b] text-[#e2e8f0] relative selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div className="min-h-screen bg-[#05070b] text-[#e2e8f0] relative selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden max-w-full w-full">
       
       {/* Cortina de abertura de página ao entrar no site */}
       <div className="page-curtain">
@@ -39,12 +39,12 @@ export default function App() {
       <ScrollProgress />
 
       {/* Luzes ambientes sutis */}
-      <div className="fixed inset-0 pointer-events-none z-0">
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-cyan-900/10 rounded-full blur-[180px]" />
         <div className="absolute bottom-1/4 right-10 w-[500px] h-[500px] bg-cyan-950/10 rounded-full blur-[180px]" />
       </div>
 
-      <div className="relative z-10">
+      <div className="relative z-10 overflow-x-hidden max-w-full w-full">
         {/* Navbar */}
         <Navbar onOpenEnroll={handleOpenEnroll} />
 

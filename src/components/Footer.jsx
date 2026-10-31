@@ -7,7 +7,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative pt-16 pb-12 bg-[#03060c]">
+    <footer className="relative pt-16 pb-12 bg-[#03060c] overflow-hidden max-w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-12 border-b border-slate-900">

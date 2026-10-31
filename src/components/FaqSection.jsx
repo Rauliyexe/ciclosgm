@@ -36,7 +36,7 @@ export default function FaqSection() {
   };
 
   return (
-    <section id="perguntas" className="relative py-24 sm:py-32">
+    <section id="perguntas" className="relative py-24 sm:py-32 overflow-hidden max-w-full">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}

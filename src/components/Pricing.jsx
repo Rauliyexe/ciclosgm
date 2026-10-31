@@ -76,7 +76,7 @@ export default function Pricing({ onOpenEnroll }) {
   const isAnual = billingCycle === 'anual';
 
   return (
-    <section id="planos" className="relative py-24 sm:py-32">
+    <section id="planos" className="relative py-24 sm:py-32 overflow-hidden max-w-full">
       {/* Luz ambiente suave de fundo */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[520px] bg-cyan-600/10 rounded-full blur-[190px] pointer-events-none" />
 

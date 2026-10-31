@@ -21,23 +21,43 @@
   * {
     border-color: #16243a;
     -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
   }
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    overflow-x: clip;
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+    overscroll-behavior-x: none;
+    touch-action: pan-y;
   }
   body {
     background-color: #05070b;
     color: #e2e8f0;
     font-family: var(--font-sans);
+    overflow-x: clip;
     overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
+    overscroll-behavior-x: none;
+    touch-action: pan-y;
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
-    padding-left: env(safe-area-inset-left, 0px);
-    padding-right: env(safe-area-inset-right, 0px);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    overflow-x: clip;
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
+    touch-action: pan-y;
   }
 
   button, a, input, select, textarea {
