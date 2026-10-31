@@ -1,5 +1,5 @@
 import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
-import { Check, ShieldCheck, ArrowRight, Sparkles, Zap, Tag } from 'lucide-react';
+import { Check, ShieldCheck, ArrowRight, Sparkles, Tag } from 'lucide-react';
 
 export default function Pricing({ onOpenEnroll }) {
   const [billingCycle, setBillingCycle] = useState('mensal'); // 'mensal' | 'anual'
@@ -149,13 +149,13 @@ export default function Pricing({ onOpenEnroll }) {
           <div className="absolute top-0 inset-x-10 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-90 shadow-[0_0_12px_#00f2fe]" />
 
           {/* Conteúdo interno medido para animação fluida de altura */}
-          <div ref={innerCardRef} className="p-7 sm:p-11">
+          <div ref={innerCardRef} className="p-5 sm:p-11">
             
             {/* Conteúdo com animação de troca de plano */}
             <div key={billingCycle} className="animate-price-pop">
               
-              {/* Badges superiores */}
-              <div className="flex items-center justify-between gap-2 mb-8">
+              {/* Badges superiores adaptativos para telas pequenas */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 sm:mb-8">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#00f2fe]" />
                   <span className="text-xs font-mono uppercase tracking-widest text-cyan-300 font-semibold">
@@ -163,7 +163,7 @@ export default function Pricing({ onOpenEnroll }) {
                   </span>
                 </div>
 
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/70 border border-cyan-500/30 text-cyan-300 text-[11px] font-mono tracking-wider uppercase">
+                <span className="inline-flex self-start sm:self-auto items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/70 border border-cyan-500/30 text-cyan-300 text-[11px] font-mono tracking-wider uppercase">
                   {isAnual ? (
                     <>
                       <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
@@ -183,11 +183,11 @@ export default function Pricing({ onOpenEnroll }) {
                 {isAnual ? (
                   <div>
                     {/* Linha do valor original cortado */}
-                    <div className="flex items-center gap-2.5 mb-1.5 min-h-[28px]">
+                    <div className="flex flex-wrap items-center gap-2 mb-1.5 min-h-[28px]">
                       <span className="text-xs font-mono uppercase tracking-widest text-slate-500">
                         De:
                       </span>
-                      <span className="line-through text-slate-500 font-serif text-2xl sm:text-3xl font-light decoration-cyan-400/80 decoration-2">
+                      <span className="line-through text-slate-500 font-serif text-xl sm:text-3xl font-light decoration-cyan-400/80 decoration-2">
                         R$ 830,00
                       </span>
                       <span className="inline-flex items-center gap-1 text-[11px] font-mono bg-cyan-950/80 text-cyan-300 border border-cyan-500/30 px-2.5 py-0.5 rounded-full">
@@ -197,17 +197,17 @@ export default function Pricing({ onOpenEnroll }) {
                     </div>
 
                     {/* Preço final com corte de 830 -> 661 */}
-                    <div className="flex items-baseline gap-1.5">
+                    <div className="flex items-baseline gap-1 sm:gap-1.5 flex-wrap">
                       <span className="text-xs font-mono uppercase tracking-widest text-cyan-400 mr-1">
                         Por:
                       </span>
-                      <span className="text-base sm:text-lg font-mono text-slate-400 font-normal">
+                      <span className="text-sm sm:text-lg font-mono text-slate-400 font-normal">
                         R$
                       </span>
-                      <span className="font-serif text-5xl sm:text-6xl lg:text-7xl font-normal text-white tracking-tight drop-shadow-[0_0_25px_rgba(0,242,254,0.25)]">
+                      <span className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal text-white tracking-tight drop-shadow-[0_0_25px_rgba(0,242,254,0.25)]">
                         661
                       </span>
-                      <span className="text-lg sm:text-xl font-mono text-slate-300">
+                      <span className="text-base sm:text-xl font-mono text-slate-300">
                         ,00
                       </span>
                       <span className="text-xs sm:text-sm font-mono text-slate-400 ml-1">

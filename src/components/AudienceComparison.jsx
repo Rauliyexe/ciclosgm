@@ -39,9 +39,9 @@ export default function AudienceComparison({ onOpenEnroll }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch mb-12">
           
           {/* Card 1: Não é para você */}
-          <div className="rounded-3xl p-7 sm:p-10 bg-[#141012] border border-red-950/40 shadow-xl flex flex-col justify-between">
+          <div className="rounded-3xl p-5 sm:p-10 bg-[#141012] border border-red-950/40 shadow-xl flex flex-col justify-between">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-950/30 border border-red-500/20 text-rose-300 text-xs font-mono uppercase tracking-wider mb-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-950/30 border border-red-500/20 text-rose-300 text-xs font-mono uppercase tracking-wider mb-6 sm:mb-8">
                 <span className="w-4 h-4 rounded-full bg-red-900/60 flex items-center justify-center text-rose-300 text-[10px]">
                   ✕
                 </span>
@@ -67,9 +67,9 @@ export default function AudienceComparison({ onOpenEnroll }) {
           </div>
 
           {/* Card 2: É para você */}
-          <div className="rounded-3xl p-7 sm:p-10 bg-[#080e18] border border-cyan-500/35 shadow-[0_0_35px_-10px_rgba(0,242,254,0.18)] flex flex-col justify-between relative overflow-hidden">
+          <div className="rounded-3xl p-5 sm:p-10 bg-[#080e18] border border-cyan-500/35 shadow-[0_0_35px_-10px_rgba(0,242,254,0.18)] flex flex-col justify-between relative overflow-hidden">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-950/60 border border-cyan-400/30 text-cyan-300 text-xs font-mono uppercase tracking-wider mb-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-950/60 border border-cyan-400/30 text-cyan-300 text-xs font-mono uppercase tracking-wider mb-6 sm:mb-8">
                 <span className="w-4 h-4 rounded-full bg-cyan-400 flex items-center justify-center text-slate-950 text-[10px] font-bold">
                   ✓
                 </span>

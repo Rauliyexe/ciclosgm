@@ -24,13 +24,13 @@ export default function EnrollModal({ isOpen, onClose, selectedPlan = 'mensal' }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-lg rounded-3xl bg-[#080d17] border border-cyan-500/40 p-6 sm:p-9 shadow-[0_0_60px_rgba(0,242,254,0.25)] text-left">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in">
+      <div className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto overscroll-contain rounded-3xl bg-[#080d17] border border-cyan-500/40 p-5 sm:p-9 shadow-[0_0_60px_rgba(0,242,254,0.25)] text-left">
 
         {/* Close Button */}
         <button
           onClick={handleReset}
-          className="absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-800 transition-colors"
+          className="absolute top-4 right-4 text-slate-400 hover:text-white p-2.5 rounded-full hover:bg-slate-800 transition-colors"
           aria-label="Fechar"
         >
           <X className="w-5 h-5" />
@@ -47,25 +47,25 @@ export default function EnrollModal({ isOpen, onClose, selectedPlan = 'mensal' }
               Bem-vindo ao Ciclos.
             </h3>
 
-            <p className="text-xs sm:text-sm text-slate-300 font-sans mb-6">
+            <p className="text-xs sm:text-sm text-slate-300 font-sans mb-5 sm:mb-6 leading-relaxed">
               Preencha os dados abaixo para receber as instruções imediatas de acesso ao grupo e à sala ao vivo.
             </p>
 
             {/* Plan Recap */}
-            <div className="bg-[#050811] rounded-2xl p-4 border border-cyan-950 mb-6 flex items-center justify-between">
+            <div className="bg-[#050811] rounded-2xl p-4 border border-cyan-950 mb-5 sm:mb-6 flex items-center justify-between gap-3">
               <div>
                 <span className="text-xs font-mono uppercase text-cyan-300 block font-semibold">
                   {selectedPlan === 'anual' ? 'Plano Anual • Desconto R$ 169' : 'Plano Mensal'}
                 </span>
-                <span className="text-xs text-slate-400">
+                <span className="text-[11px] sm:text-xs text-slate-400">
                   {selectedPlan === 'anual' ? 'De R$ 830 por R$ 661/ano (R$ 55/mês)' : 'Encontros matinais 5h29 – 6h31'}
                 </span>
               </div>
-              <div className="text-right">
-                <span className="font-serif text-2xl text-white font-semibold">
+              <div className="text-right shrink-0">
+                <span className="font-serif text-xl sm:text-2xl text-white font-semibold">
                   {selectedPlan === 'anual' ? 'R$ 661,00' : 'R$ 83,00'}
                 </span>
-                <span className="text-xs text-slate-400 block font-mono">
+                <span className="text-[11px] sm:text-xs text-slate-400 block font-mono">
                   {selectedPlan === 'anual' ? '/ano' : '/mês'}
                 </span>
               </div>
@@ -80,10 +80,11 @@ export default function EnrollModal({ isOpen, onClose, selectedPlan = 'mensal' }
                 <input
                   type="text"
                   required
+                  autoComplete="name"
                   placeholder="Ex: Carlos Silva"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl bg-[#05070e] border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 text-sm font-sans transition-colors"
+                  className="w-full px-4 py-3 rounded-xl bg-[#05070e] border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 text-base sm:text-sm font-sans transition-colors"
                 />
               </div>
 
@@ -94,10 +95,11 @@ export default function EnrollModal({ isOpen, onClose, selectedPlan = 'mensal' }
                 <input
                   type="email"
                   required
+                  autoComplete="email"
                   placeholder="seuemail@exemplo.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl bg-[#05070e] border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 text-sm font-sans transition-colors"
+                  className="w-full px-4 py-3 rounded-xl bg-[#05070e] border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 text-base sm:text-sm font-sans transition-colors"
                 />
               </div>
 
@@ -108,10 +110,12 @@ export default function EnrollModal({ isOpen, onClose, selectedPlan = 'mensal' }
                 <input
                   type="tel"
                   required
+                  inputMode="tel"
+                  autoComplete="tel"
                   placeholder="(11) 99999-9999"
                   value={formData.whatsapp}
                   onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl bg-[#05070e] border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 text-sm font-sans transition-colors"
+                  className="w-full px-4 py-3 rounded-xl bg-[#05070e] border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 text-base sm:text-sm font-sans transition-colors"
                 />
               </div>
 

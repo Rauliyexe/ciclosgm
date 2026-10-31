@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from "react";
 
 /**
  * Phosphor — a glowing shell of twisted noise, marched in one fragment shader.
- * Port of "Phosphor" by Xor, customized for Ciclos with pure alpha transparency.
+ * Port of "Phosphor" by Xor, customized for Ciclos with pure alpha transparency,
+ * adaptive mobile GPU scaling, and battery-friendly viewport pauses.
  */
 
 const MAX_DPR = 1;
@@ -84,7 +85,7 @@ attribute vec2 aPos;
 void main() { gl_Position = vec4(aPos, 0.0, 1.0); }
 `;
 
-const FRAG_SRC = `
+const FRAG_SRC_BODY = `
 precision highp float;
 
 uniform vec2  uRes;
@@ -111,13 +112,13 @@ void main() {
     float d = 0.0;
     float s = 0.0;
 
-    for (int i = 0; i < 80; i++) {
+    for (int i = 0; i < STEPS; i++) {
         vec3 p = z * dir;
         vec3 a = normalize(cos(vec3(1.0, 2.0, 0.0) + uTime - d * 8.0));
         p.z += uDist;
         a = a * dot(a, p) - cross(a, p);
 
-        for (float k = 2.0; k < 10.0; k += 1.0) {
+        for (float k = 2.0; k < TURB_MAX; k += 1.0) {
             a += uTurb * sin(a * k + uTime).yzx / k;
         }
 
@@ -185,55 +186,88 @@ export default function Phosphor({
     speed,
   });
 
-  propsRef.current = {
-    background,
-    baseColor,
-    spectrum,
-    size,
-    distance,
-    turbulence,
-    brightness,
-    speed,
-  };
+  useEffect(() => {
+    propsRef.current = {
+      background,
+      baseColor,
+      spectrum,
+      size,
+      distance,
+      turbulence,
+      brightness,
+      speed,
+    };
+  });
 
   useEffect(() => {
     const root = rootRef.current;
     const canvas = canvasRef.current;
     if (!root || !canvas) return;
 
-    // Alpha enabled so canvas is 100% transparent outside the ball
-    const gl = canvas.getContext("webgl", {
-      antialias: false,
-      alpha: true,
-      depth: false,
-      preserveDrawingBuffer: false,
-    });
-    if (!gl) {
-      console.error("Phosphor: WebGL unavailable");
-      return;
+    let gl = null;
+    let program = null;
+    let vs = null;
+    let fs = null;
+    let buffer = null;
+    let raf = 0;
+    let isVisible = true;
+
+    const isMobile =
+      typeof window !== "undefined" &&
+      (window.innerWidth < 768 ||
+        /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
+          navigator.userAgent
+        ));
+
+    // Otimização para celular: menos iterações no loop mantendo 60fps cravados
+    const shaderHeader = isMobile
+      ? "#define STEPS 44\n#define TURB_MAX 6.0\n"
+      : "#define STEPS 80\n#define TURB_MAX 10.0\n";
+    const fragSource = shaderHeader + FRAG_SRC_BODY;
+
+    function initGL() {
+      gl = canvas.getContext("webgl", {
+        antialias: false,
+        alpha: true,
+        depth: false,
+        preserveDrawingBuffer: false,
+        powerPreference: "low-power",
+      });
+      if (!gl) {
+        console.warn("Phosphor: WebGL unavailable");
+        return false;
+      }
+
+      vs = compileShader(gl, gl.VERTEX_SHADER, VERT_SRC);
+      fs = compileShader(gl, gl.FRAGMENT_SHADER, fragSource);
+      if (!vs || !fs) return false;
+
+      program = gl.createProgram();
+      if (!program) return false;
+      gl.attachShader(program, vs);
+      gl.attachShader(program, fs);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        console.error("Phosphor link:", gl.getProgramInfoLog(program));
+        return false;
+      }
+      gl.useProgram(program);
+
+      buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array([-1, -1, 3, -1, -1, 3]),
+        gl.STATIC_DRAW
+      );
+      const posLoc = gl.getAttribLocation(program, "aPos");
+      gl.enableVertexAttribArray(posLoc);
+      gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+      return true;
     }
 
-    const vs = compileShader(gl, gl.VERTEX_SHADER, VERT_SRC);
-    const fs = compileShader(gl, gl.FRAGMENT_SHADER, FRAG_SRC);
-    if (!vs || !fs) return;
-
-    const program = gl.createProgram();
-    if (!program) return;
-    gl.attachShader(program, vs);
-    gl.attachShader(program, fs);
-    gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error("Phosphor link:", gl.getProgramInfoLog(program));
-      return;
-    }
-    gl.useProgram(program);
-
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-    const posLoc = gl.getAttribLocation(program, "aPos");
-    gl.enableVertexAttribArray(posLoc);
-    gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+    if (!initGL()) return;
 
     const loc = (name) => gl.getUniformLocation(program, name);
     const uRes = loc("uRes");
@@ -254,15 +288,28 @@ export default function Phosphor({
     });
     resizeObserver.observe(root);
 
+    // Pausa animação quando sair da tela para poupar 100% da bateria no celular
+    const intersectionObserver = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible && !raf) {
+        last = performance.now();
+        raf = requestAnimationFrame(render);
+      }
+    }, { threshold: 0.05 });
+    intersectionObserver.observe(root);
+
     const reduceMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    let raf = 0;
     let last = performance.now();
     let clock = 0;
 
     const render = (now) => {
+      if (!isVisible || document.hidden) {
+        raf = 0;
+        return;
+      }
       raf = requestAnimationFrame(render);
 
       const dt = clamp((now - last) / 1000, 0, 0.05);
@@ -300,13 +347,41 @@ export default function Phosphor({
 
     raf = requestAnimationFrame(render);
 
+    const onVisibilityChange = () => {
+      if (!document.hidden && isVisible && !raf) {
+        last = performance.now();
+        raf = requestAnimationFrame(render);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    const onContextLost = (e) => {
+      e.preventDefault();
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+    };
+    const onContextRestored = () => {
+      initGL();
+      last = performance.now();
+      raf = requestAnimationFrame(render);
+    };
+
+    canvas.addEventListener("webglcontextlost", onContextLost);
+    canvas.addEventListener("webglcontextrestored", onContextRestored);
+
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
       resizeObserver.disconnect();
-      gl.deleteBuffer(buffer);
-      gl.deleteProgram(program);
-      gl.deleteShader(vs);
-      gl.deleteShader(fs);
+      intersectionObserver.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      canvas.removeEventListener("webglcontextlost", onContextLost);
+      canvas.removeEventListener("webglcontextrestored", onContextRestored);
+      if (gl) {
+        if (buffer) gl.deleteBuffer(buffer);
+        if (program) gl.deleteProgram(program);
+        if (vs) gl.deleteShader(vs);
+        if (fs) gl.deleteShader(fs);
+      }
     };
   }, []);
 

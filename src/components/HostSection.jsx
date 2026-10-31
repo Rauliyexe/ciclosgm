@@ -6,6 +6,8 @@ export default function HostSection() {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   const onMove = (e) => {
+    if (typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches) return;
+    if (!frameRef.current) return;
     const r = frameRef.current.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width;
     const py = (e.clientY - r.top) / r.height;

@@ -79,30 +79,27 @@ export default function SubliminalCurve({ className = '' }) {
       rafId = requestAnimationFrame(animate);
     };
 
-    // Desaceleração sutil do scroll quando o usuário passa pelo centro desta seção
-    const handleWheel = (e) => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const vh = window.innerHeight;
-
-      // Zona ativa de desaceleração enquanto a curva está no centro da viewport
-      const inSlowZone = rect.top < vh * 0.38 && rect.bottom > vh * 0.62;
-      if (inSlowZone && Math.abs(e.deltaY) < 180) {
-        e.preventDefault();
-        window.scrollBy({
-          top: e.deltaY * 0.38,
-          behavior: 'instant',
-        });
+    let isIntersecting = false;
+    const observer = new IntersectionObserver(([entry]) => {
+      isIntersecting = entry.isIntersecting;
+      if (isIntersecting && !rafId) {
+        computeTargetProgress();
+        rafId = requestAnimationFrame(animate);
       }
-    };
+    }, { threshold: 0.05 });
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
 
     const onScroll = () => {
-      computeTargetProgress();
+      if (isIntersecting) {
+        computeTargetProgress();
+      }
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
-    window.addEventListener('wheel', handleWheel, { passive: false });
 
     computeTargetProgress();
     rafId = requestAnimationFrame(animate);
@@ -110,7 +107,7 @@ export default function SubliminalCurve({ className = '' }) {
     return () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
-      window.removeEventListener('wheel', handleWheel);
+      observer.disconnect();
       if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);

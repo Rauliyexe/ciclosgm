@@ -4,21 +4,21 @@ import CycleDial from './CycleDial';
 
 export default function Hero({ onOpenEnroll }) {
   return (
-    <section className="relative pt-32 sm:pt-40 pb-20 sm:pb-28 overflow-hidden">
+    <section className="relative pt-24 sm:pt-36 lg:pt-40 pb-14 sm:pb-24 lg:pb-28 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-8 items-center">
           
           {/* Left Column: Copy & CTAs */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             
             {/* Tag / Category */}
-            <div className="hero-in inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/40 border border-cyan-500/25 text-cyan-300 text-xs font-mono uppercase tracking-[0.2em] mb-6">
+            <div className="hero-in inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/40 border border-cyan-500/25 text-cyan-300 text-xs font-mono uppercase tracking-[0.2em] mb-4 sm:mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#00f2fe]" />
               05h29 · Foco Matinal
             </div>
 
             {/* Main Headline */}
-            <h1 className="font-serif text-4xl sm:text-6xl lg:text-[4.4rem] font-normal tracking-tight text-white leading-[1.08] mb-6">
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-[4.4rem] font-normal tracking-tight text-white leading-[1.12] sm:leading-[1.08] mb-5 sm:mb-6">
               Você sabe o que precisa fazer. O difícil é{' '}
               <span className="italic font-light text-cyan-300 font-serif drop-shadow-[0_0_25px_rgba(0,242,254,0.3)]">
                 fazer todo dia.
@@ -26,15 +26,15 @@ export default function Hero({ onOpenEnroll }) {
             </h1>
 
             {/* Description — Curta, direta e sem enrolação */}
-            <p className="hero-in text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-xl mb-8" style={{ animationDelay: '0.2s' }}>
+            <p className="hero-in text-sm sm:text-lg text-slate-300 font-normal leading-relaxed max-w-xl mb-6 sm:mb-8" style={{ animationDelay: '0.2s' }}>
               De segunda a sexta, pontualmente às 5h29. Câmeras abertas, microfones mudos e 62 minutos de foco absoluto na sua prioridade.
             </p>
 
             {/* CTAs */}
-            <div className="hero-in flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mb-6" style={{ animationDelay: '0.35s' }}>
+            <div className="hero-in flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto mb-6" style={{ animationDelay: '0.35s' }}>
               <button
                 onClick={onOpenEnroll}
-                className="btn-cyan-glow group inline-flex items-center justify-center gap-3 px-7 py-3.5 rounded-xl font-mono text-xs sm:text-sm uppercase tracking-wider font-bold text-slate-950 transition-all cursor-pointer"
+                className="btn-cyan-glow group inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3.5 rounded-xl font-mono text-xs sm:text-sm uppercase tracking-wider font-bold text-slate-950 transition-all cursor-pointer shadow-[0_0_25px_rgba(0,242,254,0.35)]"
               >
                 <span>Quero entrar no Ciclos</span>
                 <span className="w-6 h-6 rounded-lg bg-black/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">

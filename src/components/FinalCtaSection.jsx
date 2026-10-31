@@ -49,10 +49,10 @@ export default function FinalCtaSection({ onOpenEnroll }) {
         </p>
 
         {/* Botão de Ação */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 w-full">
           <button
             onClick={onOpenEnroll}
-            className="btn-cyan-glow group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-mono text-xs sm:text-sm uppercase tracking-wider font-bold text-slate-950 transition-all cursor-pointer shadow-[0_0_30px_rgba(0,242,254,0.4)]"
+            className="btn-cyan-glow group w-full sm:w-auto inline-flex items-center justify-center gap-3 px-7 sm:px-8 py-4 rounded-xl font-mono text-xs sm:text-sm uppercase tracking-wider font-bold text-slate-950 transition-all cursor-pointer shadow-[0_0_30px_rgba(0,242,254,0.4)]"
           >
             <span>Garantir minha vaga no Ciclos</span>
             <span className="w-6 h-6 rounded-lg bg-black/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">

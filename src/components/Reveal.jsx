@@ -34,6 +34,10 @@ export default function Reveal({
       return;
     }
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const effectiveThreshold = isMobile ? Math.min(threshold, 0.05) : threshold;
+    const effectiveMargin = isMobile ? '0px 0px 30px 0px' : '0px 0px -8% 0px';
+
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -43,7 +47,7 @@ export default function Reveal({
           setVisible(false);
         }
       },
-      { threshold, rootMargin: '0px 0px -8% 0px' }
+      { threshold: effectiveThreshold, rootMargin: effectiveMargin }
     );
     io.observe(el);
     return () => io.disconnect();

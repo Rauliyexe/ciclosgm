@@ -14,7 +14,7 @@ export default function EmotionalQuotes() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
         
         {/* Main Card */}
-        <div className="subtle-grid relative rounded-3xl bg-[#070b13]/90 border border-cyan-900/40 p-8 sm:p-14 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.9)] backdrop-blur-xl">
+        <div className="subtle-grid relative rounded-3xl bg-[#070b13]/90 border border-cyan-900/40 p-6 sm:p-14 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.9)] backdrop-blur-xl">
           
           {/* Subtle inner top glow */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-70" />

@@ -130,7 +130,9 @@ export default function RisingLines(props) {
       const { w, h } = sizeRef.current;
       const area = w * h;
       const refArea = 800 * 400;
-      const target = Math.max(0, Math.floor((particles * area) / refArea));
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+      const baseParticles = isMobile ? Math.floor(particles * 0.45) : particles;
+      const target = Math.max(0, Math.floor((baseParticles * area) / refArea));
       particleCount = Math.min(target, 4000);
       pX = new Float32Array(particleCount);
       pY = new Float32Array(particleCount);
@@ -321,18 +323,41 @@ export default function RisingLines(props) {
       }
     };
 
+    let isVisible = false;
+    const io = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible && !rafRef.current) {
+        lastT = performance.now();
+        rafRef.current = requestAnimationFrame(loop);
+      }
+    }, { threshold: 0.05 });
+    io.observe(container);
+
     let lastT = performance.now();
     const loop = (t) => {
+      if (!isVisible || document.hidden) {
+        rafRef.current = null;
+        return;
+      }
       const deltaSec = (t - lastT) / 1000;
       lastT = t;
       drawFrame(deltaSec);
       rafRef.current = requestAnimationFrame(loop);
     };
-    rafRef.current = requestAnimationFrame(loop);
+
+    const onVisibilityChange = () => {
+      if (!document.hidden && isVisible && !rafRef.current) {
+        lastT = performance.now();
+        rafRef.current = requestAnimationFrame(loop);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     return () => {
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       ro.disconnect();
+      io.disconnect();
     };
   }, [
     particles,
